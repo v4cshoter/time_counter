@@ -3,17 +3,15 @@ import random
 import math
 
 
-def logger(*args, **kwargs):
+def logger(amount_points: int):
     def decorator(func):
         def wrap(*args, **kwargs):
             print("Running")
-            start = time.time()
+            start = time.monotonic()
             result = func(*args, **kwargs)
-            end = time.time()
+            end = time.monotonic()
             elapsed_time = end - start
-            print(f"Started at {time.strftime('%X', time.localtime(start))} \n"
-                  f"Ended at {time.strftime('%X', time.localtime(end))} \n"
-                  f"Elapsed time: {elapsed_time:.4f} seconds")
+            print(f"Elapsed time: {elapsed_time:.{amount_points}f} seconds")
             return result
 
         return wrap
@@ -21,9 +19,9 @@ def logger(*args, **kwargs):
     return decorator
 
 
-@logger(2)
+@logger(4)
 def sin(x):
-    time.sleep(random.randint(1, 3))
+    time.sleep(random.random())
     return f"x = {x}, sin(x) = {math.sin(x)}"
 
 
